@@ -4,6 +4,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+const (
+	AccountManagerCollection = "account_manage"
+)
+
 type AccountManager struct {
 	// 创建时（用户上传的数据为空，所以默认可以不传该值)
 	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
@@ -25,6 +29,8 @@ type AccountManager struct {
 	Name string `json:"name"`
 	// 账号Id admin
 	AccountId string `json:"account_id"  bson:"account_id"`
+	// 密码
+	Password string `json:"password"  bson:"password"`
 
 	// 手机号
 	Phone string `json:"phone"`
