@@ -15,6 +15,10 @@ const (
 	EnterVersion AccountVersion = 3
 )
 
+const (
+	MerchantAccountCollection = "merchant_account"
+)
+
 type MerchantAccount struct {
 	// 创建时（用户上传的数据为空，所以默认可以不传该值)
 	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
