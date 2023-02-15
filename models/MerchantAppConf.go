@@ -19,6 +19,7 @@ type FunctionDetail struct {
 	Name string `json:"name"`
 }
 
+// MerchantAppConf 
 type MerchantAppConf struct {
 	// 创建时（用户上传的数据为空，所以默认可以不传该值)
 	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
