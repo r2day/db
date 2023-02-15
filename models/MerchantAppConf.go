@@ -43,31 +43,31 @@ type MerchantAppConf struct {
 
 type MenuEnable struct {
 	// 是否开通/启用 dash
-	EnableDash bool `json: enable_dash" bson: enable_dash"`
+	EnableDash bool `json: "enable_dash" bson: "enable_dash"`
 
 	// 是否开通/启用 scm
-	EnableScm bool `json: enable_scm" bson: enable_scm"`
+	EnableScm bool `json: "enable_scm" bson: "enable_scm"`
 
 	// 是否开通/启用 sale
-	EnableSale bool `json: enable_sale" bson: enable_sale"`
+	EnableSale bool `json: "enable_sale" bson: "enable_sale"`
 
 	// 是否开通/启用 dish
-	EnableDish bool `json: enable_dish" bson: enable_dish"`
+	EnableDish bool `json: "enable_dish" bson: "enable_dish"`
 
 	// 是否开通/启用 custome
-	EnableCustome bool `json: enable_custome" bson: enable_custome"`
+	EnableCustome bool `json: "enable_custome" bson: "enable_custome"`
 
 	// 是否开通/启用 sms
-	EnableSms bool `json: enable_sms" bson: enable_sms"`
+	EnableSms bool `json: "enable_sms" bson: "enable_sms"`
 
 	// 是否开通/启用 join
-	EnableJoin bool `json: enable_join" bson: enable_join"`
+	EnableJoin bool `json: "enable_join" bson: "enable_join"`
 
 	// 是否开通/启用 system
-	EnableSystem bool `json: enable_system" bson: enable_system"`
+	EnableSystem bool `json: "enable_system" bson: "enable_system"`
 
 	// 是否开通/启用 store
-	EnableStore bool `json: enable_store" bson: enable_store"`
+	EnableStore bool `json: "enable_store" bson: "enable_store"`
 }
 
 // 根据用户角色分配查看的权限
