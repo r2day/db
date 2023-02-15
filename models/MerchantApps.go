@@ -26,6 +26,9 @@ type MerchantApps struct {
 	// 应用价格
 	Price uint `json:"price" bson:"price"`
 
+	// 应用唯一标识
+	Key string `json:"key" bson:"key"`
+
 	// 应用介绍
 	Desc string `json:"desc"`
 }
