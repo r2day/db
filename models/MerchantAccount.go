@@ -58,4 +58,7 @@ type MerchantAccount struct {
 	// 品牌Logo
 	LogoUrl string `json:"logo_url" bson:"logo_url,omitempty"`
 
+	// apps 应用列表
+	Apps []string `json:"apps" bson:"apps,omitempty"`
+
 }
