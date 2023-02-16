@@ -119,7 +119,10 @@ func (m * MerchantAppConf) GetOneByMerchantId(merchantId string) (*MerchantAppCo
 	// because you should avoid to export something to customers
 	coll := db.MDB.Collection(MerchantAppConfCollection)
 	err := coll.FindOne(context.TODO(),
-		bson.D{{Key: "merchant_id", Value: merchantId}}).Decode(m)
+		bson.D{
+			{Key: "merchant_id", Value: merchantId},
+			{Key: "status", Value: true},
+		}).Decode(m)
 
 	if err != nil {
 		return nil,  err
