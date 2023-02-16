@@ -4,16 +4,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type AccountVersion uint
-
-const (
-	// 试用版
-	TrialVersion AccountVersion = 1
-	// 专业版
-	ProVersion  AccountVersion = 2
-	// 企业版
-	EnterVersion AccountVersion = 3
-)
 
 const (
 	MerchantAccountCollection = "merchant_account"
@@ -37,8 +27,9 @@ type MerchantAccount struct {
 	Name string `json:"name"`
 
 	// 版本
-	// 试用、专业、企业
-	Version AccountVersion `json:"version"`
+	// 例如: 试用、专业、企业
+	// 保存版本id
+	Version string `json:"version"`
 
 	// 商户手机号
 	Phone string `json:"phone"`
@@ -52,13 +43,10 @@ type MerchantAccount struct {
 	// 密码
 	Password string `json:"password"`
 
-	// 品牌介绍
+	// 商户介绍
 	Desc string `json:"desc"`
 
 	// 品牌Logo
 	LogoUrl string `json:"logo_url" bson:"logo_url,omitempty"`
-
-	// apps 应用列表
-	Apps []string `json:"apps" bson:"apps"`
 
 }
