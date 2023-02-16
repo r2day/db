@@ -37,7 +37,7 @@ type MerchantAppConf struct {
 	// 功能名称
 	Name string `json:"name"`
 
-	MenuEnable MenuEnable `json:"menu_enable" bson:"menu_enable"`
+	MenuEnableConf MenuEnable `json:"menu_enable_conf" bson:"menu_enable_conf"`
 
 	MenuDisplayConf MenuDisplay  `json:"menu_display_conf" bson:"menu_display_conf"`
 }
