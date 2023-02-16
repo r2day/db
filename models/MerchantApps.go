@@ -1,6 +1,10 @@
 package models
 
 import (
+	"context"
+
+	"github.com/r2day/db"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -31,4 +35,19 @@ type MerchantApps struct {
 
 	// 应用介绍
 	Desc string `json:"desc"`
+}
+
+// MerchantApps 通过id获取对象
+func (m * MerchantApps) GetOneById(id string) (*MerchantApps, error) {
+	// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	objID, _ := primitive.ObjectIDFromHex(id)
+	coll := db.MDB.Collection(MerchantAppConfCollection)
+	err := coll.FindOne(context.TODO(),
+		bson.D{{Key: "_id", Value: objID}}).Decode(m)
+
+	if err != nil {
+		return nil,  err
+	}
+	return m, nil
 }

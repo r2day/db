@@ -1,7 +1,16 @@
 package models
 
 import (
+	"context"
+
+	"github.com/r2day/db"
+
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+const (
+	MerchantAppConfCollection = "merchant_app_conf"
 )
 
 // FunctionRequest Binding from JSON
@@ -101,4 +110,19 @@ type MenuDisplay struct {
 	DisplayReview bool `json:"display_review" bson:"display_review"`
 	// 是否开通/启用 trade
 	DisplayTrade bool `json:"display_trade" bson:"display_trade"`
+}
+
+
+// GetOneByMerchantId 通过商户id获取对象
+func (m * MerchantAppConf) GetOneByMerchantId(merchantId string) (*MerchantAppConf, error) {
+		// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	coll := db.MDB.Collection(MerchantAppConfCollection)
+	err := coll.FindOne(context.TODO(),
+		bson.D{{Key: "merchant_id", Value: merchantId}}).Decode(m)
+
+	if err != nil {
+		return nil,  err
+	}
+	return m, nil
 }

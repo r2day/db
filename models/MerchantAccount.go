@@ -1,6 +1,10 @@
 package models
 
 import (
+	"context"
+
+	"github.com/r2day/db"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -49,4 +53,18 @@ type MerchantAccount struct {
 	// 品牌Logo
 	LogoUrl string `json:"logo_url" bson:"logo_url,omitempty"`
 
+}
+
+// GetOneByMerchantId 通过商户id获取对象
+func (m * MerchantAccount) GetOneByMerchantId(merchantId string) (*MerchantAccount, error) {
+	// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	coll := db.MDB.Collection(MerchantAppConfCollection)
+	err := coll.FindOne(context.TODO(),
+		bson.D{{Key: "merchant_id", Value: merchantId}}).Decode(m)
+
+	if err != nil {
+		return nil,  err
+	}
+	return m, nil
 }
