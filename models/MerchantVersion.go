@@ -53,7 +53,7 @@ func (m * MerchantVersion) GetOneById(id string) (*MerchantVersion, error) {
 	// TODO result using custom struct instead of bson.M
 	// because you should avoid to export something to customers
 	objID, _ := primitive.ObjectIDFromHex(id)
-	coll := db.MDB.Collection(MerchantAppConfCollection)
+	coll := db.MDB.Collection(MerchantVersionCollection)
 	err := coll.FindOne(context.TODO(),
 		bson.D{{Key: "_id", Value: objID}}).Decode(m)
 
