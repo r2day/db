@@ -59,7 +59,7 @@ type MerchantAccount struct {
 func (m * MerchantAccount) GetOneByMerchantId(merchantId string) (*MerchantAccount, error) {
 	// TODO result using custom struct instead of bson.M
 	// because you should avoid to export something to customers
-	coll := db.MDB.Collection(MerchantAppConfCollection)
+	coll := db.MDB.Collection(MerchantAccountCollection)
 	err := coll.FindOne(context.TODO(),
 		bson.D{{Key: "merchant_id", Value: merchantId}}).Decode(m)
 
