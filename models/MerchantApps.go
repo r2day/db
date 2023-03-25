@@ -38,7 +38,7 @@ type MerchantApps struct {
 
 	// 应用配置
 	// 用于指导前端显示sidebar
-	AppMenu ApplicationMenu `json:"application_menu" bson:"application_menu"`
+	ApplicationMenu `json:"application_menu" bson:"application_menu"`
 }
 
 // MerchantApps 通过id获取对象
