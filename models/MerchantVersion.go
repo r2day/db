@@ -2,14 +2,12 @@ package models
 
 import (
 	"context"
-	"net/http"
 	"fmt"
 
 	"github.com/r2day/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"github.com/gin-gonic/gin"
 )
 
 
