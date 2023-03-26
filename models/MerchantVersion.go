@@ -2,10 +2,14 @@ package models
 
 import (
 	"context"
+	"net/http"
+	"fmt"
 
 	"github.com/r2day/db"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"github.com/gin-gonic/gin"
 )
 
 
@@ -45,7 +49,21 @@ type MerchantVersion struct {
 	// 包含套餐
 	Combo []string `json:"combo" bson:"combo"`
 
+	// 包含应用列表
+	ApplicationList []string `json:"application_list" bson:"application_list"`
+
 }
+
+// type ApplicationShortcut struct {
+// 	// 标签
+// 	Badge string `json:"badge"`
+
+// 	// 应用价格
+// 	Price uint `json:"price" bson:"price"`
+
+// 	// 版本介绍
+// 	Desc string `json:"desc"`
+// }
 
 
 // MerchantVersion 通过id获取对象
@@ -61,4 +79,45 @@ func (m * MerchantVersion) GetOneById(id string) (*MerchantVersion, error) {
 		return nil,  err
 	}
 	return m, nil
+}
+
+// MerchantVersion 通过id获取对象
+func (m * MerchantVersion) GetApplicationsById(id string) ([]*ApplicationConfig, error) {
+	// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	objID, _ := primitive.ObjectIDFromHex(id)
+	coll := db.MDB.Collection(MerchantVersionCollection)
+	err := coll.FindOne(context.TODO(),
+		bson.D{{Key: "_id", Value: objID}}).Decode(m)
+
+	if err != nil {
+		return nil,  err
+	}
+	applicationList := make([]*ApplicationConfig, 0)
+	roleManageColl := db.MDB.Collection(ApplicationConfigCollectionName)
+
+	applicationMongoIdList := make([]primitive.ObjectID, 0)
+	for _, i := range m.ApplicationList {
+		objID, _ := primitive.ObjectIDFromHex(i)
+		applicationMongoIdList = append(applicationMongoIdList, objID)
+
+	}
+
+	filter := bson.M{"_id": bson.M{"$in": applicationMongoIdList}}
+	cursor, err := roleManageColl.Find(context.TODO(), filter)
+	if err != nil {
+		return nil, err
+	}
+
+	err = cursor.All(context.TODO(), &applicationList)
+
+	if err == mongo.ErrNoDocuments {
+		fmt.Printf("no application was found")
+		return nil, err
+	}
+	if err != nil {
+		fmt.Printf("query application by ids in failed")
+		return nil, err
+	}
+	return applicationList, nil
 }

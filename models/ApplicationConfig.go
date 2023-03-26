@@ -39,8 +39,10 @@ type ApplicationConfig struct {
 	// 商户ID
 	MerchantId string `json:"merchant_id" bson:"merchant_id"`
 	// 功能名称
+	// 例如: scm, product, order,
 	Name string `json:"name"`
-
+	// 功能标识
+	Logo string `json:"logo"`
 	// 应用列表
 	AppMenuList []*ApplicationMenu  `json:"app_menu_list" bson:"app_menu_list"`
 	
