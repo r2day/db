@@ -117,3 +117,33 @@ func (m * ApplicationConfig) GetByMerchantId(merchantId string) (*ApplicationCon
 	}
 	return m, nil
 }
+
+// AddIntoByMerchantId 通过商户id更新当前应用列表
+func (m * ApplicationConfig) AddIntoByMerchantId(merchantId string, appMenu * ApplicationMenu, appStateName string) error {
+	// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	coll := db.MDB.Collection(ApplicationConfigCollectionName)
+	err := coll.FindOne(context.TODO(),
+		bson.D{
+			{Key: "merchant_id", Value: merchantId},
+			{Key: "status", Value: true},
+		}).Decode(m)
+	if err != nil {
+		return err
+	}
+	// 修改 ApplicationMenu 
+	m.AppMenuList = append(m.AppMenuList, appMenu)
+
+	// 修改 AppStateMap
+	m.AppStateMap[appStateName] = false
+
+	// 更新数据库
+	filter := bson.D{{Key: "_id", Value: m.ID}}
+	_, err = coll.UpdateOne(context.TODO(), filter,
+	bson.D{{Key: "$set", Value: m}})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
