@@ -43,6 +43,8 @@ type ApplicationConfig struct {
 	Name string `json:"name"`
 	// 功能标识
 	Logo string `json:"logo"`
+	// 描述
+	Desc string `json:"desc"`
 	// 应用列表
 	AppMenuList []*ApplicationMenu  `json:"app_menu_list" bson:"app_menu_list"`
 	
