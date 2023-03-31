@@ -138,10 +138,10 @@ type ApplicationSubMenu struct {
 
 
 // GetByMerchantId 通过商户id获取对象
-func (m * ApplicationConfig) GetByMerchantId(merchantId string) (*ApplicationConfig, error) {
+func (m * ApplicationConfigMerchant) GetByMerchantId(merchantId string) (*ApplicationConfigMerchant, error) {
 	// TODO result using custom struct instead of bson.M
 	// because you should avoid to export something to customers
-	coll := db.MDB.Collection(ApplicationConfigCollectionName)
+	coll := db.MDB.Collection(ApplicationConfigMerchantCollection)
 	err := coll.FindOne(context.TODO(),
 		bson.D{
 			{Key: "merchant_id", Value: merchantId},
@@ -153,11 +153,28 @@ func (m * ApplicationConfig) GetByMerchantId(merchantId string) (*ApplicationCon
 	return m, nil
 }
 
-// AddIntoByMerchantId 通过商户id更新当前应用列表
-func (m * ApplicationConfig) AddIntoByMerchantId(merchantId string, appMenu * ApplicationMenu, appStateName string) error {
+// GetByMerchantAndUserId 通过用户 id获取对象
+func (m * ApplicationConfigUser) GetByMerchantAndUserId(merchantId string, userId string) (*ApplicationConfigUser, error) {
 	// TODO result using custom struct instead of bson.M
 	// because you should avoid to export something to customers
-	coll := db.MDB.Collection(ApplicationConfigCollectionName)
+	coll := db.MDB.Collection(ApplicationConfigUserCollection)
+	err := coll.FindOne(context.TODO(),
+		bson.D{
+			{Key: "merchant_id", Value: merchantId},
+			{Key: "user_id", Value: userId},
+			{Key: "status", Value: true},
+		}).Decode(m)
+	if err != nil {
+		return nil,  err
+	}
+	return m, nil
+}
+
+// AddIntoByMerchantId 通过商户id更新当前应用列表
+func (m * ApplicationConfigMerchant) AddIntoByMerchantId(merchantId string, appMenu * ApplicationMenu, appStateName string) error {
+	// TODO result using custom struct instead of bson.M
+	// because you should avoid to export something to customers
+	coll := db.MDB.Collection(ApplicationConfigMerchantCollection)
 	err := coll.FindOne(context.TODO(),
 		bson.D{
 			{Key: "merchant_id", Value: merchantId},
