@@ -9,8 +9,14 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+// sys_ 为系统级应用
+
 const (
-	ApplicationConfigCollectionName = "application_config_collection"
+	// 商户分配的应用配额列表
+	ApplicationConfigMerchantCollection = "sys_application_config_merchant"
+	// ApplicationConfigUserCollection 用户应用配置
+	// 用户可以进行的操作的应用列表
+	ApplicationConfigUserCollection = "sys_application_config_user"
 )
 
 //     {
@@ -27,7 +33,7 @@ const (
 // 	],
 // },
 // ApplicationConfig 应用配置 
-type ApplicationConfig struct {
+type ApplicationConfigMerchant struct {
 	// 创建时（用户上传的数据为空，所以默认可以不传该值)
 	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 	// 创建时间
@@ -38,6 +44,33 @@ type ApplicationConfig struct {
 	Status bool `json:"status"`
 	// 商户ID
 	MerchantId string `json:"merchant_id" bson:"merchant_id"`
+	// 功能名称
+	// 例如: scm, product, order,
+	Name string `json:"name"`
+	// 功能标识
+	Logo string `json:"logo"`
+	// 描述
+	Desc string `json:"desc"`
+	// 应用列表
+	AppMenuList []*ApplicationMenu  `json:"app_menu_list" bson:"app_menu_list"`
+	
+	// 应用state
+	AppStateMap map[string]bool `json:"app_state_map" bson:"app_state_map"`
+}
+
+type ApplicationConfigUser struct {
+	// 创建时（用户上传的数据为空，所以默认可以不传该值)
+	ID primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+	// 创建时间
+	CreatedAt string `json:"created_at" bson:"created_at"`
+	// 更新时间
+	UpdatedAt string `json:"updated_at" bson:"updated_at"`
+	// 状态
+	Status bool `json:"status"`
+	// 商户ID
+	MerchantId string `json:"merchant_id" bson:"merchant_id"`
+	// 用户id
+	UserId string `json:"user_id" bson:"user_id"`
 	// 功能名称
 	// 例如: scm, product, order,
 	Name string `json:"name"`
