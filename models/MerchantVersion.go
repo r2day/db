@@ -80,7 +80,7 @@ func (m * MerchantVersion) GetOneById(id string) (*MerchantVersion, error) {
 }
 
 // MerchantVersion 通过id获取对象
-func (m * MerchantVersion) GetApplicationsById(id string) ([]*ApplicationConfig, error) {
+func (m * MerchantVersion) GetApplicationsById(id string) ([]*ApplicationConfigMerchant, error) {
 	// TODO result using custom struct instead of bson.M
 	// because you should avoid to export something to customers
 	objID, _ := primitive.ObjectIDFromHex(id)
@@ -91,8 +91,8 @@ func (m * MerchantVersion) GetApplicationsById(id string) ([]*ApplicationConfig,
 	if err != nil {
 		return nil,  err
 	}
-	applicationList := make([]*ApplicationConfig, 0)
-	roleManageColl := db.MDB.Collection(ApplicationConfigCollectionName)
+	applicationList := make([]*ApplicationConfigMerchant, 0)
+	roleManageColl := db.MDB.Collection(ApplicationConfigMerchantCollection)
 
 	applicationMongoIdList := make([]primitive.ObjectID, 0)
 	for _, i := range m.ApplicationList {
