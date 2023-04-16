@@ -1,7 +1,6 @@
 package db
 
 import (
-	"tbkt/logger"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -13,7 +12,7 @@ import (
 var RDB *redis.Client
 
 // InitRedisDB 初始化redis链接池
-func InitRedisDB(redisAddr string, db int, poolSize int) {
+func InitRedisDB(redisAddr string, db int, poolSize int) error {
 	RDB = redis.NewClient(&redis.Options{
 		Addr:        redisAddr,        // Redis地址
 		Password:    "",               // Redis账号
@@ -24,19 +23,19 @@ func InitRedisDB(redisAddr string, db int, poolSize int) {
 	})
 	pong, err := RDB.Ping().Result()
 	if err == redis.Nil {
-		logger.Info("Redis异常")
 		log.WithField("redisAddr", redisAddr).
 			WithField("db", db).
 			WithField("poolSize", poolSize).Error(err)
+		return err
 	} else if err != nil {
-		logger.Info("Redis异常")
 		log.WithField("redisAddr", redisAddr).
 			WithField("db", db).
 			WithField("poolSize", poolSize).Error(err)
+		return err
 	} else {
-		logger.Info("Redis异常")
 		log.WithField("redisAddr", redisAddr).
 			WithField("db", db).
 			WithField("poolSize", poolSize).Info("connect redis successful")
+		return nil
 	}
 }
